@@ -14,7 +14,7 @@ ui.fuck_off.setVisible(False)
 
 
 class Servo:
-    threshold = (0, 180)
+    # threshold = (0, 180)
     step_coeff = 30
     step_value = 9
     control_values = {180 // step_coeff // 2: 90}
@@ -24,14 +24,14 @@ class Servo:
     for i in range(180 // step_coeff // 2 + 1, 180 // step_coeff + 1):
         control_values[i] = 90 + (i - 180 // step_coeff // 2) * step_value
 
-    slider_value = [threshold[0], threshold[1]]
+    # slider_value = [threshold[0], threshold[1]]
 
     full_action_flag = True
 
     time = run_time
 
     def __init__(self, name, bend, extend, slider, mode_360, mode_180,
-                 servo_type=180):
+                 servo_type=180, slider_max=180, slider_min=0):
         self.name = name
         if self.name == 'wrist':
             self.num = 10
@@ -51,6 +51,7 @@ class Servo:
         self.bend_button = bend
         self.extend_button = extend
         self.slider = slider
+        self.slider_value = [slider_min, slider_max]
         self.slider.setMinimum(self.slider_value[0])
         self.slider.setMaximum(self.slider_value[1])
         self.mode_button_360 = mode_360
@@ -132,13 +133,13 @@ class Servo:
 wrist = Servo('wrist', ui.wrist_downwards, ui.wrist_upwards, ui.wrist_slider,
               ui.wrist_360, ui.wrist_180, 360)
 thumb = Servo('thumb', ui.thumb_bend, ui.thumb_extend, ui.thumb_slider,
-              ui.thumb_360, ui.thumb_180)
+              ui.thumb_360, ui.thumb_180, 180, 170)
 index = Servo('index', ui.index_bend, ui.index_extend, ui.index_slider,
-              ui.index_360, ui.index_180, 360)
+              ui.index_360, ui.index_180, 180, 165)
 middle = Servo('middle', ui.middle_bend, ui.middle_extend, ui.middle_slider,
-               ui.middle_360, ui.middle_180, 360)
+               ui.middle_360, ui.middle_180, 180, 160)
 ring = Servo('ring', ui.ring_bend, ui.ring_extend, ui.ring_slider, ui.ring_360,
-             ui.ring_180, 360)
+             ui.ring_180, 180, 155)
 pinky = Servo('pinky', ui.pinky_bend, ui.pinky_extend, ui.pinky_slider,
               ui.pinky_360, ui.pinky_180)
 
@@ -221,6 +222,7 @@ def rock_sign(direc):
                 thumb.slider_value[1], index.slider_value[0],
                 middle.slider_value[1], ring.slider_value[1],
                 pinky.slider_value[0]]
+        transmit_data(data)
         thumb.slider.setValue(thumb.slider_value[1])
         index.slider.setValue(index.slider_value[0])
         middle.slider.setValue(ring.slider_value[1])
@@ -234,7 +236,7 @@ def rock_sign(direc):
                 ring.time, pinky.slider_value[0], direc, 90, direc, direc, 90]
         action_flag[0] = True
         disabled_actions()
-    transmit_data(data)
+        transmit_data(data)
 
 
 def v_sign(direc):
@@ -251,6 +253,7 @@ def v_sign(direc):
                 thumb.slider_value[1], index.slider_value[0],
                 middle.slider_value[0], ring.slider_value[1],
                 pinky.slider_value[1]]
+        transmit_data(data)
         thumb.slider.setValue(thumb.slider_value[1])
         index.slider.setValue(index.slider_value[0])
         middle.slider.setValue(ring.slider_value[0])
@@ -264,7 +267,7 @@ def v_sign(direc):
                 pinky.slider_value[index_slider_value], 90, 90, 90, direc, 90]
         action_flag[1] = True
         disabled_actions()
-    transmit_data(data)
+        transmit_data(data)
 
 
 def phone_call(direc):
@@ -283,6 +286,7 @@ def phone_call(direc):
                 thumb.slider_value[0], index.slider_value[1],
                 middle.slider_value[1], ring.slider_value[1],
                 pinky.slider_value[0]]
+        transmit_data(data)
         thumb.slider.setValue(thumb.slider_value[0])
         index.slider.setValue(index.slider_value[1])
         middle.slider.setValue(ring.slider_value[1])
@@ -295,7 +299,7 @@ def phone_call(direc):
                 ring.time, 90, 90, direc, direc, direc, 90]
         action_flag[2] = True
         disabled_actions()
-    transmit_data(data)
+        transmit_data(data)
 
 
 def spider_man(direc):
@@ -312,6 +316,7 @@ def spider_man(direc):
                 thumb.slider_value[0], index.slider_value[0],
                 middle.slider_value[1], ring.slider_value[1],
                 pinky.slider_value[0]]
+        transmit_data(data)
         thumb.slider.setValue(thumb.slider_value[0])
         index.slider.setValue(index.slider_value[0])
         middle.slider.setValue(ring.slider_value[1])
@@ -324,7 +329,7 @@ def spider_man(direc):
                 ring.time, 90, 90, 90, direc, direc, 90]
         action_flag[3] = True
         disabled_actions()
-    transmit_data(data)
+        transmit_data(data)
 
 
 def ok(direc):
@@ -341,6 +346,7 @@ def ok(direc):
                 thumb.slider_value[1] // 1.3, index.slider_value[1],
                 middle.slider_value[0], ring.slider_value[0],
                 pinky.slider_value[0]]
+        transmit_data(data)
         thumb.slider.setValue(thumb.slider_value[1])
         index.slider.setValue(index.slider_value[1])
         middle.slider.setValue(ring.slider_value[0])
@@ -354,7 +360,7 @@ def ok(direc):
                 90, 90, 90, direc, 90, 90, 90]
         action_flag[4] = True
         disabled_actions()
-    transmit_data(data)
+        transmit_data(data)
 
 
 def thumbs_up(direc):
@@ -375,6 +381,7 @@ def thumbs_up(direc):
                 thumb.slider_value[0], index.slider_value[1],
                 middle.slider_value[1], ring.slider_value[1],
                 pinky.slider_value[1]]
+        transmit_data(data)
         thumb.slider.setValue(thumb.slider_value[0])
         index.slider.setValue(index.slider_value[1])
         middle.slider.setValue(ring.slider_value[1])
@@ -388,7 +395,7 @@ def thumbs_up(direc):
                 direc, direc, 90]
         action_flag[5] = True
         disabled_actions()
-    transmit_data(data)
+        transmit_data(data)
 
 
 def fuck_off(direc):
@@ -408,6 +415,7 @@ def fuck_off(direc):
                 thumb.slider_value[1] // 1.23, index.slider_value[1],
                 middle.slider_value[0], ring.slider_value[1],
                 pinky.slider_value[1]]
+        transmit_data(data)
         thumb.slider.setValue(thumb.slider_value[1])
         index.slider.setValue(index.slider_value[1])
         middle.slider.setValue(ring.slider_value[0])
@@ -422,7 +430,7 @@ def fuck_off(direc):
                 90, direc, direc, 90]
         action_flag[6] = True
         disabled_actions()
-    transmit_data(data)
+        transmit_data(data)
 
 
 def initial_position():
@@ -433,12 +441,12 @@ def initial_position():
                      thumb.slider_value[0], index.slider_value[0],
                      middle.slider_value[0], ring.slider_value[0],
                      pinky.slider_value[0]]
+        transmit_data(data_init)
         thumb.slider.setValue(thumb.slider_value[0])
         index.slider.setValue(index.slider_value[0])
         middle.slider.setValue(ring.slider_value[0])
         ring.slider.setValue(ring.slider_value[0])
         pinky.slider.setValue(pinky.slider_value[0])
-        transmit_data(data_init)
     else:
         if action_flag[0]:
             rock_sign(0)
